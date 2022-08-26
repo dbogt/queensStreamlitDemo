@@ -11,8 +11,13 @@ st.multiselect('pick an option', categories)
 
 st.sidebar.button("Click me!")
 
-url = "https://www.iposcoop.com/last-100-ipos/"
-df = pd.read_html(url)[0]
+@st.cache
+def grabData():
+    url = "https://www.iposcoop.com/last-100-ipos/"
+    cachedTable = pd.read_html(url)[0]
+    return cachedTable
+
+df = grabData()
 
 #st.write(df)
 st.dataframe(df)

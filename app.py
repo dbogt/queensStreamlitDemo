@@ -16,3 +16,11 @@ df = pd.read_html(url)[0]
 
 #st.write(df)
 st.dataframe(df)
+
+#Dropdown menu that has all the unique Industries
+#Filter the table for those selections
+sectors = df['Industry'].unique() #remove duplicates
+pickedSectors = st.multiselect('Pick a sector', sectors)
+
+df_filtered = df[  df['Industry'].isin(pickedSectors)]
+st.write(df_filtered)

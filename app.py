@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 
 st.title("Demo Dashbord")
 st.write("Example dashboard in Marquee class for Queen's University")
@@ -29,3 +31,27 @@ pickedSectors = st.multiselect('Pick a sector', sectors)
 
 df_filtered = df[  df['Industry'].isin(pickedSectors)]
 st.write(df_filtered)
+
+
+st.write("Plotly Demo")
+import plotly.express as px
+import plotly.graph_objects as go
+
+df = px.data.medals_long()
+dfs = df.groupby('medal').sum()
+fig = px.bar(df, x="medal", y="count", color="nation", text_auto=True)
+
+fig.add_trace(go.Scatter(
+    x=dfs.index, 
+    y=dfs['count'],
+    text=dfs['count'],
+    mode='text',
+    textposition='top center',
+    textfont=dict(
+        size=18,
+    ),
+    showlegend=False
+))
+
+fig.update_yaxes(range=[0,50])
+st.plotly_chart(fig)

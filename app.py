@@ -36,10 +36,13 @@ st.write(df_filtered)
 st.write("Plotly Demo")
 import plotly.express as px
 import plotly.graph_objects as go
-
 df = px.data.medals_long()
-dfs = df.groupby('medal').sum()
-fig = px.bar(df, x="medal", y="count", color="nation", text_auto=True)
+nations = list(df['nation'].unique())
+pickNations  = st.multiselect('Pick nation(s)', nations, nations)
+filterDF = df[df['nation'].isin(pickNations)]
+
+dfs = filterDF.groupby('medal').sum()
+fig = px.bar(filterDF, x="medal", y="count", color="nation", text_auto=True)
 
 fig.add_trace(go.Scatter(
     x=dfs.index, 
